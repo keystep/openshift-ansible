@@ -2,11 +2,11 @@
 - name: Verify Docker Excluder version
   include: verify_excluder.yml
   vars:
-    excluder: "{{ r_openshift_excluder_service_type }}-docker-excluder"
+    excluder: "{{ r_openshift_excluder_service_type }}-docker-excluder{{ openshift_pkg_version | default('') | oo_image_tag_to_rpm_version(include_dash=True) +  '*' }}"
   when: r_openshift_excluder_enable_docker_excluder | bool
 
 - name: Verify OpenShift Excluder version
   include: verify_excluder.yml
   vars:
-    excluder: "{{ r_openshift_excluder_service_type }}-excluder"
+    excluder: "{{ r_openshift_excluder_service_type }}-excluder{{ openshift_pkg_version | default('') | oo_image_tag_to_rpm_version(include_dash=True) +  '*' }}"
   when: r_openshift_excluder_enable_openshift_excluder | bool
