@@ -7,7 +7,14 @@
 
 # We verified latest rpm available is suitable, so just yum update.
 - name: Upgrade packages
-  package: "name={{ openshift.common.service_type }}-{{ component }}{{ openshift_pkg_version }} state=present"
+  package: name={{ node_pkgs | join(',') }} state=present
+  vars:
+    node_pkgs:
+      - "{{ openshift.common.service_type }}{{ openshift_pkg_version }}"
+      - "{{ openshift.common.service_type }}-node{{ openshift_pkg_version }}"
+      - "{{ openshift.common.service_type }}-sdn-ovs{{ openshift_pkg_version }}"
+      - "{{ openshift.common.service_type }}-clients{{ openshift_pkg_version }}"
+      - "tuned-profiles-{{ openshift.common.service_type }}-node{{ openshift_pkg_version }}" 
 
 - name: Ensure python-yaml present for config upgrade
   package: name=PyYAML state=present
